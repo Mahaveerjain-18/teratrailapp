@@ -1,0 +1,12 @@
+.app-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.app-layout__content {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}

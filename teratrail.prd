@@ -1,0 +1,345 @@
+Great call 👍
+I’ll rewrite this **cleanly and professionally**, thinking like a **senior web product engineer + UX lead**, focused on a **beautiful, modern website** (not an app).
+
+Below is a **FULL WEBSITE PRD**, optimized for:
+
+* visual appeal
+* clarity for judges
+* real-world engineering thinking
+
+You can submit this **as-is**.
+
+---
+
+# 📄 Product Requirements Document (PRD)
+
+## Product Name
+
+**TerraTrail (Web)**
+**Tagline:** *See your walks come alive*
+
+---
+
+## 1. Product Overview
+
+TerraTrail is a **web-based walking and running tracker** that uses real-time location data to visualize a user’s movement as a **live path on a map**.
+Instead of focusing on complex fitness analytics, the website prioritizes **visual motivation, clean design, and simplicity**.
+
+The product is designed as a **personal, single-user experience** that helps users stay active by seeing their real-world movement as a growing visual journey.
+
+---
+
+## 2. Problem Statement
+
+Most fitness tracking tools:
+
+* Are cluttered with excessive metrics
+* Emphasize numbers over experience
+* Feel overwhelming for casual users
+
+Many users want:
+
+* A **simple and elegant interface**
+* Immediate visual feedback
+* Motivation without cognitive overload
+
+---
+
+## 3. Product Goals
+
+### Primary Goals
+
+* Track walking/running using real-time location
+* Visually display user movement on a live map
+* Provide clear time and distance metrics
+* Deliver a smooth, visually pleasing experience
+
+### Secondary Goals
+
+* Encourage daily movement through visual satisfaction
+* Ensure privacy-safe handling of location data
+* Create a demo-ready product suitable for hackathon judging
+
+---
+
+## 4. Target Users
+
+* Casual walkers and runners
+* Students and professionals
+* Users who prefer clean UI over data-heavy apps
+* Hackathon judges evaluating UX + technical execution
+
+---
+
+## 5. Platform Scope
+
+* Platform: **Web (Mobile-first responsive design)**
+* Supported devices:
+
+  * Mobile browsers (primary)
+  * Desktop browsers (secondary)
+* Orientation: Vertical-first
+* Installation: No installation required (browser-based)
+
+---
+
+## 6. UX & UI Design Principles
+
+These principles guide **every UI decision**:
+
+1. **Visual-first, data-second**
+2. **One primary action per screen**
+3. **Minimal text, clear icons**
+4. **Smooth transitions and animations**
+5. **Dark-mode friendly aesthetic**
+6. **No clutter, no distractions**
+
+---
+
+## 7. Core Features (MVP)
+
+### 7.1 Activity Control
+
+* Start walking/running session
+* Stop session at any time
+* Clear visual state change between idle and active
+
+### 7.2 Real-Time Location Tracking
+
+* Uses browser Geolocation API
+* Tracks user movement only during active sessions
+* Updates location every few seconds
+
+### 7.3 Map Visualization
+
+* Real-world interactive map
+* Path drawn smoothly as user moves
+* Map centers on user’s current position
+* Completed paths remain visible after session
+
+### 7.4 Live Metrics Display
+
+Displayed subtly on screen:
+
+* Elapsed time
+* Total distance (km)
+
+### 7.5 Session Summary
+
+After stopping:
+
+* Distance covered
+* Time spent
+* Visual replay of the path
+
+---
+
+## 8. Website Structure & Pages
+
+### 8.1 Landing Page
+
+**Purpose:** First impression & clarity
+
+* Product name & tagline
+* One-sentence explanation
+* “Start Walking” CTA
+* Minimal hero section (map preview or illustration)
+
+---
+
+### 8.2 Tracking Page (Main Experience)
+
+**This is the core of the website**
+
+Layout concept:
+
+```
++----------------------------------+
+|            LIVE MAP              |
+|                                  |
+|----------------------------------|
+|   Distance      Time             |
+|   0.00 km       00:00            |
+|----------------------------------|
+|        [ START WALK ]             |
++----------------------------------+
+```
+
+* Map occupies 70–80% of screen
+* Metrics shown in translucent cards
+* Start/Stop button large and centered
+
+---
+
+### 8.3 Session Summary View
+
+```
++----------------------------------+
+|      Session Complete             |
+|----------------------------------|
+|  Distance: 1.84 km                |
+|  Time: 18 min                     |
+|----------------------------------|
+|   [ Map with Route ]              |
+|----------------------------------|
+|   [ Start New Walk ]              |
++----------------------------------+
+```
+
+Focus:
+
+* Reflection, not celebration
+* Calm colors
+* Clean typography
+
+---
+
+## 9. Visual Design System
+
+### Color Palette
+
+* Background: Dark gray / deep blue
+* Primary accent: Mint / cyan
+* Secondary accent: Soft white
+* Path color: Bright but subtle (gold, cyan)
+
+### Typography
+
+* Headings: Bold, rounded sans-serif
+* Body text: Clean, modern font
+* Metrics: Monospaced or numeric-friendly font
+
+### Animations
+
+* Button morphing (Start → Stop)
+* Smooth path drawing
+* Fade/slide transitions between states
+
+---
+
+## 10. Non-Functional Requirements
+
+### Performance
+
+* Fast load time
+* Smooth map rendering
+* Minimal re-renders
+
+### Privacy
+
+* Location data used only during active session
+* No background tracking
+* No public sharing of paths
+* Data stored locally (MVP)
+
+### Reliability
+
+* Graceful handling of location permission denial
+* Works on modern browsers
+
+---
+
+## 11. Technical Architecture
+
+### Tech Stack
+
+* Frontend: React (Vite / Next.js)
+* Maps: Mapbox GL JS
+* Location: Browser Geolocation API
+* State Management: React state/hooks
+* Storage (optional): localStorage
+
+---
+
+## 12. High-Level Architecture Diagram
+
+```
+User (Browser)
+      |
+      v
+Geolocation API
+      |
+      v
+App Logic
+(Time, Distance, State)
+      |
+      v
+Map Renderer (Mapbox)
+      |
+      v
+UI Layer (Map + Metrics)
+```
+
+---
+
+## 13. User Flow Diagram
+
+```
+Open Website
+      |
+Request Location Permission
+      |
+Map Loads
+      |
+Start Walk
+      |
+Track Movement + Draw Path
+      |
+Stop Walk
+      |
+Show Session Summary
+```
+
+---
+
+## 14. Risks & Mitigation
+
+| Risk              | Mitigation                  |
+| ----------------- | --------------------------- |
+| GPS noise         | Ignore very small movements |
+| Battery usage     | Throttle location updates   |
+| Permission denial | Clear fallback UI           |
+| UI clutter        | Strict MVP feature control  |
+
+---
+
+## 15. Success Metrics
+
+* Real-time path drawn correctly
+* Distance and time update live
+* Website feels smooth and modern
+* Judges understand the product in under 60 seconds
+
+---
+
+## 16. Future Enhancements
+
+* Session history
+* Export/share route image
+* Offline tracking
+* PWA support
+* Theming options (light/dark)
+
+---
+
+## 17. Final Notes (Senior Dev Perspective)
+
+TerraTrail (Web) is intentionally minimal and experience-driven.
+The focus is not on feature quantity, but on **clarity, beauty, and technical correctness**.
+
+This makes it ideal for:
+
+* Hackathon judging
+* Live demos
+* Future scaling into a full product
+
+---
+
+### If you want next:
+
+* 🎨 UI wireframes (homepage + tracking page)
+* 💻 Component breakdown (React)
+* 📁 Folder structure
+* 🧑‍⚖️ Judge pitch + Q&A prep
+
+Just tell me what you want next 👇
