@@ -1,11 +1,14 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import { useAuthContext } from '../context/AuthContext'
 import MapView from '../components/MapView'
+import GlobePreview from '../components/GlobePreview'
 import TopModeTabs from '../components/TopModeTabs'
 import SecondaryTabs from '../components/SecondaryTabs'
 import LeaderboardPanel from '../components/LeaderboardPanel'
 import HistoryPanel from '../components/HistoryPanel'
 import './PlayPage.css'
+
+const MAP_SIZES = ['full', 'half', 'mini', 'globe']
 
 export default function PlayPage() {
   const { user } = useAuthContext()
@@ -13,6 +16,8 @@ export default function PlayPage() {
   const [secondaryTab, setSecondaryTab] = useState('leaderboard')
   const [showPanel, setShowPanel] = useState(false)
   const [userLocation, setUserLocation] = useState(null)
+  const [mapSize, setMapSize] = useState('full')
+  const mapContainerRef = useRef(null)
 
   // Get initial user location
   useEffect(() => {
@@ -22,7 +27,6 @@ export default function PlayPage() {
           setUserLocation({ lat: pos.coords.latitude, lng: pos.coords.longitude })
         },
         () => {
-          // Fallback to Bangalore
           setUserLocation({ lat: 12.9716, lng: 77.5946 })
         },
         { enableHighAccuracy: true, timeout: 5000 }
@@ -37,27 +41,79 @@ export default function PlayPage() {
     setShowPanel(tab === secondaryTab && showPanel ? false : true)
   }
 
+  // Cycle to next smaller map size
+  const handleMinimize = useCallback(() => {
+    setMapSize((prev) => {
+      const idx = MAP_SIZES.indexOf(prev)
+      return idx < MAP_SIZES.length - 1 ? MAP_SIZES[idx + 1] : prev
+    })
+  }, [])
+
+  // Restore map to full
+  const handleExpand = useCallback(() => {
+    setMapSize('full')
+  }, [])
+
+  // Invalidate Leaflet map size after CSS transitions
+  useEffect(() => {
+    const el = mapContainerRef.current
+    if (!el) return
+    const onEnd = () => {
+      // Leaflet maps inside need invalidateSize
+      window.dispatchEvent(new Event('resize'))
+    }
+    el.addEventListener('transitionend', onEnd)
+    return () => el.removeEventListener('transitionend', onEnd)
+  }, [])
+
+  const isGlobe = mapSize === 'globe'
+
   return (
     <div className="play">
-      {/* Full-screen map */}
-      <div className="play__map">
-        <MapView center={userLocation} path={[]} isTracking={false} />
-      </div>
+      {/* Map section – animates through sizes */}
+      {!isGlobe && (
+        <div
+          ref={mapContainerRef}
+          className={`play__map play__map--${mapSize}`}
+        >
+          <MapView center={userLocation} path={[]} isTracking={false} />
+          {/* Minimize button */}
+          <button
+            className="play__minimize-btn"
+            onClick={handleMinimize}
+            title="Minimize map"
+            id="minimize-map-btn"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="6 9 12 15 18 9" />
+            </svg>
+          </button>
+        </div>
+      )}
+
+      {/* Globe preview at final minimized state */}
+      {isGlobe && (
+        <div className="play__globe-container animate-fade-in">
+          <GlobePreview onClick={handleExpand} />
+        </div>
+      )}
 
       {/* Top controls */}
       <div className="play__top">
         <TopModeTabs active={mode} onChange={setMode} />
       </div>
 
-      {/* Side controls - like INVTL */}
-      <div className="play__side-controls">
-        <button className="play__side-btn" title="My Runs">
-          <span>🏃</span>
-        </button>
-        <button className="play__side-btn" title="Notifications">
-          <span>🔔</span>
-        </button>
-      </div>
+      {/* Side controls */}
+      {!isGlobe && mapSize === 'full' && (
+        <div className="play__side-controls">
+          <button className="play__side-btn" title="My Runs">
+            <span>🏃</span>
+          </button>
+          <button className="play__side-btn" title="Notifications">
+            <span>🔔</span>
+          </button>
+        </div>
+      )}
 
       {/* My runs badge */}
       <div className="play__runs-badge">
